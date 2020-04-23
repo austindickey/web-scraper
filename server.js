@@ -1,20 +1,29 @@
+// Dependencies
 const express = require("express")
+const mongoose = require("mongoose")
 
+// Port
+const PORT = 8000
+
+// Require db model
+// const db = require("./models")
+
+// Initialize Express
 const app = express()
-const port = process.env.PORT || 8000
 
 // Middleware
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
+app.use(express.static("public"))
 
-// Routes
-require("./app/routing/htmlRoutes.js")(app)
-
-// Mongoose
-const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoHeadlines"
+// Connect to the Mongo DB
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongoScraper"
 mongoose.connect(MONGODB_URI)
 
+// Routes
+require("./routes/htmlRoutes")(app)
+
 // Server Listener
-app.listen(port, function() {
-    console.log("Server listening on port: " + port)
+app.listen(PORT, function () {
+  console.log("App running on port " + PORT + "!")
 })
