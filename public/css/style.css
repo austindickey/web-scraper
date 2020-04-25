@@ -1,0 +1,37 @@
+/* =================================
+            Body
+================================= */
+
+.content {
+    min-height: calc(100vh - 70px);
+}
+
+/* =================================
+            Main Content
+================================= */
+
+
+
+/* =================================
+            Footer
+================================= */
+
+.footer {
+    height: 75px;
+}
+
+footer {
+    background: #42A5F5;
+    color: white;
+    line-height: 70px;
+    padding: 0 20px;
+}
+
+footer a {
+    color: #dc3644;
+}
+
+footer a:hover {
+    text-decoration: none;
+    color: #fff;
+}
