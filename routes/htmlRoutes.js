@@ -2,7 +2,7 @@
 const axios = require("axios")
 const cheerio = require("cheerio")
 const path = require('path')
-const db = require("../models/Article")
+const db = require("../models")
 
 module.exports = function (app) {
 
@@ -37,7 +37,7 @@ module.exports = function (app) {
 
                 
             })
-
+            
             for (let i = 0; i < results.length; i++) {
                 db.Article.create(results[i])
                     .then(function(data){
