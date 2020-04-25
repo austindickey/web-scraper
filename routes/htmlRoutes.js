@@ -30,18 +30,17 @@ module.exports = function (app) {
                             title: title.data,
                             summary: summary.parent.attribs["data-c-br"],
                             img: img.attribs["data-gl-src"],
-                            link: newsUrl + summary.parent.attribs.href
+                            link: "https://www.usatoday.com" + summary.parent.attribs.href
                         })
                     }
                 }
 
-                
             })
-            
+
             for (let i = 0; i < results.length; i++) {
                 db.Article.create(results[i])
                     .then(function(data){
-                        console.log("Stored into database: " + data)
+                        // console.log("Stored into database: " + data)
                     })
                     .catch(function(err){
                         console.log("Error Message: " + err)
@@ -52,7 +51,48 @@ module.exports = function (app) {
         })
     })
 
-    // Saved Articles Route
+    // Get Non-Saved Articles Route
+    app.get("/articles", function(req,res) {
+        db.Article.find({"saved": false})
+            .then(function(data){
+                res.json(data)
+            })
+            .catch(function(err){
+                res.json(err)
+            })
+    })
+
+    // Get Saved Articles Route
+    app.get("/true", function(req,res) {
+        db.Article.find({"saved": true})
+            .then(function(data){
+                res.json(data)
+            })
+            .catch(function(err){
+                res.json(err)
+            })
+    })
+
+    // Save Article Route
+    app.post("/articles/:id", function (req, res) {
+        let savedVal = req.body.saved
+        db.Article.updateOne({ _id: req.params.id }, {$set: {saved: savedVal}})
+            .catch(function (err) {
+                res.json(err)
+            })
+    })
+
+    // Remove All Articles Route
+    app.get("/remove", function(req,res) {
+        db.Article.remove({})
+            .catch(function(err){
+                res.json(err)
+            })
+
+        res.redirect("/")
+    })
+
+    // Saved Articles Page Route
     app.get("/saved", function (req, res) {
         res.sendFile(path.join(__dirname + "../../public/saved.html"))
     })

@@ -46,7 +46,7 @@ body {
 #jumboContent {
     margin: 0 150px;
     padding: 15px 0;
-    background-color: rgba(223, 223, 223, 0.5);
+    background-color: rgba(223, 223, 223, 0.55);
     border-radius: 8px;
 }
 
@@ -54,7 +54,36 @@ body {
             Main Content
 ================================= */
 
+h2 {
+    color: #dc3644;
+    margin-bottom: 50px;
+}
 
+#artHolder {
+    margin: 50px 0;
+}
+
+.singleArticle {
+    margin: 30px 0;
+    border: 3px solid #42A5F5;
+    border-radius: 8px;
+    padding: 15px;
+    background-color: #fff;
+}
+
+#articles img {
+    float: left;
+    margin-right: 25px;
+}
+
+#articles a {
+    color: #42A5F5;
+}
+
+#articles a:hover {
+    color: #dc3644;
+    text-decoration: none;
+}
 
 /* =================================
             Footer

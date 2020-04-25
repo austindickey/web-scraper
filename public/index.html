@@ -31,7 +31,7 @@
       </div>
       <div class="form">
         <a href="/scrape"><button type="button" class="btn btn-danger">Scrape Articles</button></a>
-        <a href="#"><button type="button" class="btn btn-danger">Clear All Articles</button></a>
+        <a href="/remove"><button type="button" class="btn btn-danger">Clear All Articles</button></a>
       </div>
     </nav>
 
@@ -47,15 +47,24 @@
 
     <!-- Articles Content -->
     <div class="container">
-      
-    </div>
+      <div id="artHolder">
 
+        <h2 class="text-center">Recent Articles</h2>
+
+        <div id="articles"></div>
+
+      </div>
+    </div>
 
   </div>
 
   <footer class="footer">
     <p class="text-center">Created By:<a href="https://austindickey.github.io" target="_blank"> Austin Dickey</a></p>
   </footer>
+
+  <!-- JS Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="allArticles.js"></script>
 
 </body>
 
