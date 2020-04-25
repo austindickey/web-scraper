@@ -1,10 +1,12 @@
 // Dependencies
 const axios = require("axios")
 const cheerio = require("cheerio")
+const path = require('path')
 const db = require("../models/Article")
 
 module.exports = function (app) {
 
+    // Scrape Route
     app.get("/scrape", function (req, res) {
         const newsUrl = "https://www.usatoday.com/sports/nfl"
         axios.get(newsUrl).then(function (response) {
@@ -46,8 +48,13 @@ module.exports = function (app) {
                     })
             }
 
-            res.send("Scrape Complete")
+            res.redirect("/")
         })
+    })
+
+    // Saved Articles Route
+    app.get("/saved", function (req, res) {
+        res.sendFile(path.join(__dirname + "../../public/saved.html"))
     })
 
 }
