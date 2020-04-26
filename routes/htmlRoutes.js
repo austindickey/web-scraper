@@ -74,7 +74,7 @@ module.exports = function (app) {
     })
 
     // Get Notes for Saved Article
-    app.get("/true:id", function(req,res) {
+    app.get("/articles/:id", function(req,res) {
         db.Article.findOne({_id: req.params.id})
             .populate("note")
             .then(function (data) {
@@ -83,6 +83,21 @@ module.exports = function (app) {
             .catch(function (err) {
                 res.json(err)
             })
+    })
+
+    // Post Notes to DB
+    app.post("/articles/:id", function(req, res) {
+        db.Note.create(req.body)
+          .then(function(data){
+              console.log(data)
+            return db.Article.updateOne({_id: req.params.id}, {note: data._id}, {new: true})
+          })
+          .then(function(art){
+            res.json(art)
+          })
+          .catch(function(err){
+            res.json(err)
+          })
     })
 
     // Save Article Route

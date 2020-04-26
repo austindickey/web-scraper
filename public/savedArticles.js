@@ -65,7 +65,7 @@ $(document).on("click", ".notes", function () {
     // AJAX Call
     $.ajax({
       method: "GET",
-      url: "/notes/" + thisId
+      url: "/articles/" + thisId
     })
       .then(function (data) {
         console.log(data)
@@ -93,7 +93,9 @@ $(document).on("click", ".notes", function () {
     // Appending Data to Elements
     h4.text("Notes")
     textarea.attr("placeholder", "Type your note here:")
+    textarea.addClass("notesBox")
     button.addClass("btn btn-danger submit")
+    button.attr("data-id-submit", thisId)
     button.text("Submit")
     shrink.addClass("btn btn-danger shrink")
     shrink.text("Close")
@@ -109,4 +111,23 @@ $(document).on("click", ".notes", function () {
 // Close Notes Button Listener
 $(document).on("click", ".shrink", function () {
     $(".notesDiv").empty()
+})
+
+// Close Notes Button Listener
+$(document).on("click", ".submit", function () {
+  let thisId = $(this).attr("data-id-submit")
+
+  // AJAX Call
+  $.ajax({
+    method: "POST",
+    url: "/articles/" + thisId,
+    data: {
+      body: $(".notesBox").val().trim()
+    }
+  })
+    .then(function (data) {
+      console.log(data)
+
+      $(".notesBox").val("")
+    })
 })
