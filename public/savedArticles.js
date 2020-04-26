@@ -65,7 +65,7 @@ $(document).on("click", ".notes", function () {
     // AJAX Call
     $.ajax({
       method: "GET",
-      url: "/articles/" + thisId
+      url: "/true/" + thisId
     })
       .then(function (data) {
         console.log(data)
@@ -120,7 +120,7 @@ $(document).on("click", ".submit", function () {
   // AJAX Call
   $.ajax({
     method: "POST",
-    url: "/articles/" + thisId,
+    url: "/true/" + thisId,
     data: {
       body: $(".notesBox").val().trim()
     }
