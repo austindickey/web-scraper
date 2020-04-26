@@ -2,7 +2,7 @@
 const express = require("express")
 
 // Port
-const PORT = 8000
+const PORT = process.env.PORT || 8000
 
 // Initialize Express
 const app = express()
