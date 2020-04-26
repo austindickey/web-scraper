@@ -40,18 +40,56 @@ $.getJSON("/true", function(data) {
 })
 
 // Unsave Article Button
-$(document).on("click", ".delete", function() {
-    
-    var thisId = $(this).attr("data-id")
-  
-    $.ajax({
-      method: "POST",
-      url: "/articles/" + thisId,
-      data: {
-        saved: false
-      }
+$(document).on("click", ".delete", function () {
+
+  let thisId = $(this).attr("data-id")
+
+  $.ajax({
+    method: "POST",
+    url: "/articles/" + thisId,
+    data: {
+      saved: false
+    }
+  })
+    .then(function (data) {
+      console.log(data)
     })
-      .then(function(data) {
+})
+
+// Toggle notes
+$(document).on("click", ".notes", function () {
+    let thisId = $(this).attr("data-id")
+
+    $.ajax({
+      method: "GET",
+      url: "/notes/" + thisId
+    })
+      .then(function (data) {
         console.log(data)
       })
-  })
+
+    let div = $("<div>")
+    let h4 = $("<h4>")
+    let textarea = $("<textarea>")
+    let button = $("<button>")
+    let shrink = $("<button>")
+
+
+    // div.html("<hr>")
+    div.addClass("notesDiv")
+    h4.text("Notes")
+    button.addClass("btn btn-danger submit")
+    button.text("Submit")
+    shrink.addClass("btn btn-danger shrink")
+    shrink.text("Close")
+    
+
+    div.append(h4, textarea, button, shrink)
+    
+    $(".singleArticle").append(div)
+})
+
+// Close Notes
+$(document).on("click", ".shrink", function () {
+    $(".notesDiv").empty()
+})
