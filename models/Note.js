@@ -10,6 +10,9 @@ const NoteSchema = new Schema({
     content: {
       type: String,
       required: true
+    },
+    articleId: {
+      type: String
     }
 })
 

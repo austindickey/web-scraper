@@ -69,17 +69,17 @@ $(document).on("click", ".notes", function () {
     })
       .then(function (data) {
         console.log(data)
+
+        // Tag Elements for an Existing Note
+        let exists = $("<div>")
+        let p = $("<p>")
+        p.text(data.content)
+
+        exists.addClass("oldNotes")
+        exists.append(p)
+
+        // I would append the data to the page here if it was coming back, but it's not
       })
-
-    // Tag Elements for an Existing Note
-    let exists = $("<div>")
-    let p = $("<p>")
-
-    exists.addClass("oldNotes")
-
-    // Logic for adding notes text goes here:
-
-    exists.append(p)
 
     // Tag Elements for New Note
     let div = $("<div>")
@@ -122,7 +122,8 @@ $(document).on("click", ".submit", function () {
     method: "POST",
     url: "/true/" + thisId,
     data: {
-      body: $(".notesBox").val().trim()
+      content: $(".notesBox").val().trim(),
+      articleId: thisId
     }
   })
     .then(function (data) {
