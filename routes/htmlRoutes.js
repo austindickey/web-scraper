@@ -73,6 +73,18 @@ module.exports = function (app) {
             })
     })
 
+    // Get Notes for Saved Article
+    app.get("/true:id", function(req,res) {
+        db.Article.findOne({_id: req.params.id})
+            .populate("note")
+            .then(function (data) {
+                res.json(data)
+            })
+            .catch(function (err) {
+                res.json(err)
+            })
+    })
+
     // Save Article Route
     app.post("/articles/:id", function (req, res) {
         let savedVal = req.body.saved

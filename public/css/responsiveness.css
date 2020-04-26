@@ -1,0 +1,15 @@
+@media (max-width:1024px) {
+    #jumboContent {margin: 0 60px;}
+}
+
+@media (max-width:768px) {
+    #jumboContent {margin: 0 50px;}
+}
+
+@media (max-width:414px) {
+    #jumboContent {margin: 0;}
+}
+
+@media (max-width:375px) {
+    .notes {margin-bottom: 15px;}
+}

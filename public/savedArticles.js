@@ -18,7 +18,7 @@ $.getJSON("/true", function(data) {
         a.html(h4)
         img.attr("src", data[i].img)
 
-        // Creating Delete Button
+        // Creating Notes Button
         notes.attr("type", "button")
         notes.attr("data-id", data[i]._id)
         notes.addClass("btn btn-danger notes")
@@ -33,17 +33,19 @@ $.getJSON("/true", function(data) {
         // Appending Elements to a Div
         div.append(img, a, p, notes, button)
         div.addClass("singleArticle")
+        div.attr("data-id-master", data[i]._id)
 
         // Appending the Div to the Page
         $("#articles").append(div)
     }
 })
 
-// Unsave Article Button
+// Unsave Article Button Listener
 $(document).on("click", ".delete", function () {
 
   let thisId = $(this).attr("data-id")
 
+  // AJAX Call
   $.ajax({
     method: "POST",
     url: "/articles/" + thisId,
@@ -56,10 +58,11 @@ $(document).on("click", ".delete", function () {
     })
 })
 
-// Toggle notes
+// Show Notes Button Listener
 $(document).on("click", ".notes", function () {
     let thisId = $(this).attr("data-id")
 
+    // AJAX Call
     $.ajax({
       method: "GET",
       url: "/notes/" + thisId
@@ -68,28 +71,42 @@ $(document).on("click", ".notes", function () {
         console.log(data)
       })
 
+    // Tag Elements for an Existing Note
+    let exists = $("<div>")
+    let p = $("<p>")
+
+    exists.addClass("oldNotes")
+
+    // Logic for adding notes text goes here:
+
+    exists.append(p)
+
+    // Tag Elements for New Note
     let div = $("<div>")
+    let hr = $("<hr>")
     let h4 = $("<h4>")
     let textarea = $("<textarea>")
+    let br = $("<br>")
     let button = $("<button>")
     let shrink = $("<button>")
 
-
-    // div.html("<hr>")
-    div.addClass("notesDiv")
+    // Appending Data to Elements
     h4.text("Notes")
+    textarea.attr("placeholder", "Type your note here:")
     button.addClass("btn btn-danger submit")
     button.text("Submit")
     shrink.addClass("btn btn-danger shrink")
     shrink.text("Close")
     
-
-    div.append(h4, textarea, button, shrink)
+    // Appending Elements to a Div
+    div.append(hr, h4, textarea, br, button, shrink)
+    div.addClass("notesDiv")
     
-    $(".singleArticle").append(div)
+    // Appending Div to the Page
+    $(".singleArticle[data-id-master='" + thisId + "']").append(div)
 })
 
-// Close Notes
+// Close Notes Button Listener
 $(document).on("click", ".shrink", function () {
     $(".notesDiv").empty()
 })
