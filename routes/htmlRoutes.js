@@ -40,7 +40,7 @@ module.exports = function (app) {
             for (let i = 0; i < results.length; i++) {
                 db.Article.create(results[i])
                     .then(function(data){
-                        // console.log("Stored into database: " + data)
+                        console.log("Stored into database: " + data)
                     })
                     .catch(function(err){
                         console.log("Error Message: " + err)
@@ -73,31 +73,26 @@ module.exports = function (app) {
             })
     })
 
-    // Get Notes for Saved Article
-    app.get("/true/:id", function(req,res) {
-        db.Article.findOne({_id: req.params.id})
-            .populate("note")
-            .then(function (data) {
+    // Get Notes for a Specific Article
+    app.get("/notes/:id", function(req,res) {
+        db.Article.find({_id: req.params.id})
+            .then(function(data){
                 res.json(data)
             })
-            .catch(function (err) {
+            .catch(function(err){
                 res.json(err)
             })
     })
 
-    // Post Notes to DB
-    app.post("/true/:id", function(req, res) {
-        db.Note.create(req.body)
-          .then(function(data){
-              console.log(data)
-            return db.Article.updateOne({_id: req.params.id}, {note: data._id}, {new: true})
-          })
-          .then(function(art){
-            res.json(art)
-          })
-          .catch(function(err){
-            res.json(err)
-          })
+    // Post Notes to Database
+    app.post("/notes/:id", function(req,res) {
+        db.Article.updateOne({_id: req.params.id}, {$push: {notes: req.body.content}})
+            .then(function(data){
+                res.json(data)
+            })
+            .catch(function(err){
+                res.json(err)
+            })
     })
 
     // Save Article Route
@@ -119,7 +114,7 @@ module.exports = function (app) {
         res.redirect("/")
     })
 
-    // Saved Articles Page Route
+    // Saved Articles Page
     app.get("/saved", function (req, res) {
         res.sendFile(path.join(__dirname + "../../public/saved.html"))
     })

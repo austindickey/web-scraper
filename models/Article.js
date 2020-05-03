@@ -27,6 +27,9 @@ const ArticleSchema = new Schema({
         type: Boolean,
         required: true,
         default: false
+    },
+    notes: {
+        type: Array
     }
 })
 

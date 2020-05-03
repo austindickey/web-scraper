@@ -47,4 +47,5 @@ $(document).on("click", ".save", function() {
       .then(function(data) {
         console.log(data)
       })
+      location.reload()
   })

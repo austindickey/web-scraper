@@ -56,33 +56,16 @@ $(document).on("click", ".delete", function () {
     .then(function (data) {
       console.log(data)
     })
+    location.reload()
 })
 
 // Show Notes Button Listener
 $(document).on("click", ".notes", function () {
     let thisId = $(this).attr("data-id")
 
-    // AJAX Call
-    $.ajax({
-      method: "GET",
-      url: "/true/" + thisId
-    })
-      .then(function (data) {
-        console.log(data)
-
-        // Tag Elements for an Existing Note
-        let exists = $("<div>")
-        let p = $("<p>")
-        p.text(data.content)
-
-        exists.addClass("oldNotes")
-        exists.append(p)
-
-        // I would append the data to the page here if it was coming back, but it's not
-      })
-
     // Tag Elements for New Note
     let div = $("<div>")
+    let notesList = $("<ul>")
     let hr = $("<hr>")
     let h4 = $("<h4>")
     let textarea = $("<textarea>")
@@ -92,6 +75,7 @@ $(document).on("click", ".notes", function () {
 
     // Appending Data to Elements
     h4.text("Notes")
+    notesList.attr("id", "oldNotes")
     textarea.attr("placeholder", "Type your note here:")
     textarea.addClass("notesBox")
     button.addClass("btn btn-danger submit")
@@ -101,11 +85,33 @@ $(document).on("click", ".notes", function () {
     shrink.text("Close")
     
     // Appending Elements to a Div
-    div.append(hr, h4, textarea, br, button, shrink)
+    div.append(hr, h4, notesList, textarea, br, button, shrink)
     div.addClass("notesDiv")
     
     // Appending Div to the Page
     $(".singleArticle[data-id-master='" + thisId + "']").append(div)
+
+    // AJAX Call
+    $.ajax({
+      method: "GET",
+      url: "/notes/" + thisId
+    })
+      .then(function (data) {
+        notes = data[0].notes
+
+        for (let i = 0; i < notes.length; i++) {
+          // Appending the existing notes to the page
+          let exists = $("<div>")
+          let li = $("<li>")
+          li.text(notes[i])
+
+          exists.addClass("existingNotes")
+          exists.append(li)
+
+          $("#oldNotes").append(exists)
+        }
+      })
+
 })
 
 // Close Notes Button Listener
@@ -113,22 +119,20 @@ $(document).on("click", ".shrink", function () {
     $(".notesDiv").empty()
 })
 
-// Close Notes Button Listener
+// Posting the Notes to the Database
 $(document).on("click", ".submit", function () {
   let thisId = $(this).attr("data-id-submit")
 
   // AJAX Call
   $.ajax({
     method: "POST",
-    url: "/true/" + thisId,
+    url: "/notes/" + thisId,
     data: {
-      content: $(".notesBox").val().trim(),
-      articleId: thisId
+      content: $(".notesBox").val().trim()
     }
   })
     .then(function (data) {
-      console.log(data)
-
       $(".notesBox").val("")
+      location.reload()
     })
 })
